@@ -17,6 +17,7 @@ pub use rustler_sys::{TWinDynNifCallbacks, WIN_DYN_NIF_CALLBACKS};
 pub unsafe trait NifReturnable {
     unsafe fn as_returned(self, env: Env) -> NifReturned;
 }
+
 unsafe impl<T> NifReturnable for T
 where
     T: crate::Encoder,
@@ -25,6 +26,7 @@ where
         NifReturned::Term(self.encode(env).as_c_arg())
     }
 }
+
 unsafe impl<T> NifReturnable for Result<T, crate::error::Error>
 where
     T: crate::Encoder,
@@ -48,6 +50,7 @@ pub enum NifReturned {
         args: Vec<NIF_TERM>,
     },
 }
+
 impl NifReturned {
     pub unsafe fn apply(self, env: Env) -> NIF_TERM {
         match self {

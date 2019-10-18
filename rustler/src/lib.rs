@@ -21,11 +21,13 @@
 //!
 //! For more information about this, see [the documentation for
 //! rustler_mix](https://hexdocs.pm/rustler/basics.html).
+use proc_macro_hack::proc_macro_hack;
 
 #[macro_use(enif_snprintf)]
 extern crate rustler_sys;
 
-mod wrapper;
+#[doc(hidden)]
+pub mod wrapper;
 
 #[doc(hidden)]
 pub mod codegen_runtime;
@@ -65,4 +67,10 @@ pub use crate::r#return::Return;
 pub type NifResult<T> = Result<T, Error>;
 
 #[cfg(feature = "derive")]
-pub use rustler_codegen::{NifMap, NifRecord, NifStruct, NifTuple, NifUnitEnum, NifUntaggedEnum};
+pub use rustler_codegen::{
+    nif, NifMap, NifRecord, NifStruct, NifTuple, NifUnitEnum, NifUntaggedEnum,
+};
+
+#[cfg(feature = "derive")]
+//#[proc_macro_hack]
+pub use rustler_codegen::init;
